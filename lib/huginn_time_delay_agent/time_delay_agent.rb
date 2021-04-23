@@ -57,9 +57,16 @@ module Agents
     private
 
     def write_memory(opts, event = nil)
-      memory['events'] ||= []
-      memory['events'] << { 'delay_untill': Time.zone.parse(opts['delay_untill']),
-                            'payload': event.payload}
+      delay_untill = opts['delay_untill']
+      delay_untill_parsed = Time.zone.parse(delay_untill)
+
+      if delay_untill_parsed.is_a?(Time)
+        memory['events'] ||= []
+        memory['events'] << { 'delay_untill': delay_untill_parsed,
+                              'payload': event.payload}
+      else
+        error "\"" + delay_untill + "\" is not a valid datetime."
+      end
     end
   end
 end
