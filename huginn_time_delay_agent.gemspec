@@ -8,10 +8,10 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Ruben De Maeyer"]
   spec.email         = ["54435202+Unending@users.noreply.github.com"]
 
-  spec.summary       = %q{huginn agent to delay events untill certain time.}
+  spec.summary       = %q{huginn agent to delay events untill specified time.}
   # spec.description   = %q{Write a longer description or delete this line.}
 
-  spec.homepage      = "https://github.com/Unending/huginn_time_delay_agent"
+  spec.homepage      = "https://github.com/unending/huginn_time_delay_agent"
 
   spec.license       = "MIT"
 

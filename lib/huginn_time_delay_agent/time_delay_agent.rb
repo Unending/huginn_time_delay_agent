@@ -2,12 +2,16 @@ require 'date'
 
 module Agents
   class TimeDelayAgent < Agent
-    include FormConfigurable
-
     default_schedule 'every_1h'
 
     description <<-MD
-      The TimeDelayAgent stores received events and emits copies of them at a specified time.
+      The Time Delay Agent stores received events and re-emits them at a specified time.
+
+      `delay_untill` Event field with the date (and time) after which the event can be re-emitted.
+      If you want to delay an event by a set amount of time. Use [Liquid templating](https://github.com/huginn/huginn/wiki/Formatting-Events-using-Liquid) to specify which field of the received event should be used.
+      Dates (and times) can be dynamically generated using liquid templating; for example `{{'now' | date: '%s' | plus: 86400 | date: '%Y-%m-%d %H:%M:%S'}}` to delay an event one day.
+
+      `expected_receive_period_in_days` is used to determine if the Agent is working. Set it to the maximum number of days that you anticipate passing without this Agent receiving an incoming Event.
     MD
 
     def default_options
@@ -16,9 +20,6 @@ module Agents
         'delay_untill' => '{{ date }}'
       }
     end
-
-    form_configurable :expected_receive_period_in_days, type: :string
-    form_configurable :delay_untill, type: :string
 
     def validate_options
       unless options['expected_receive_period_in_days'].present? && options['expected_receive_period_in_days'].to_i > 0
